@@ -39,7 +39,6 @@ export class App extends Component {
     });
   };
   render() {
-    const { contacts } = this.state;
     const filteredContacts = this.state.contacts.filter(contact =>
       contact.name
         .toLowerCase()
