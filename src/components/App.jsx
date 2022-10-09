@@ -1,6 +1,9 @@
 import { Component } from 'react';
 
 import { ContactForm } from './ContactForm/ContactForm';
+import { ContactList } from './ContactList/ContactList';
+import { Filter } from './Filter/Filter';
+
 export class App extends Component {
   state = {
     contacts: [
@@ -24,27 +27,38 @@ export class App extends Component {
       filter: e.target.value,
     });
   };
+  deleteContact = contactId => {
+    const contactIndex = this.state.contacts.findIndex(
+      contact => contact.id === contactId
+    );
+    this.setState(prevState => {
+      prevState.contacts.splice(contactIndex, 1);
+      return {
+        contacts: [...prevState.contacts],
+      };
+    });
+  };
+
   render() {
     const filteredContacts = this.state.contacts.filter(contact =>
       contact.name
         .toLowerCase()
         .includes(this.state.filter.toString().toLowerCase())
     );
-    console.log(this.state.contacts);
+
     return (
       <>
         <h1>Phonebook</h1>
-        <ContactForm data={this.getNewContactsArray} />
+        <ContactForm
+          data={this.getNewContactsArray}
+          contacts={this.state.contacts}
+        />
         <h2>Contacts</h2>
-        <h3>Find contacts by name</h3>
-        <input type="text" onChange={this.contactsFilter} />
-        <ul>
-          {filteredContacts.map(contact => (
-            <li key={contact.id}>
-              {contact.name}: {contact.number}
-            </li>
-          ))}
-        </ul>
+        <Filter contactsFilter={this.contactsFilter} />
+        <ContactList
+          filteredContacts={filteredContacts}
+          deleteContact={this.deleteContact}
+        />
       </>
     );
   }

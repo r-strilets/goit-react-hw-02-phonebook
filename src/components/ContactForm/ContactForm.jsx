@@ -1,10 +1,15 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
+import { PropTypes } from 'prop-types';
 export class ContactForm extends Component {
+  static propTypes = {
+    contacts: PropTypes.array.isRequired,
+  };
   state = {
     name: '',
     number: '',
   };
+
   onChangeInput = e => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -13,11 +18,20 @@ export class ContactForm extends Component {
 
   addContact = e => {
     e.preventDefault();
+    if (
+      this.props.contacts.some(
+        contact => this.state.name.toLowerCase() === contact.name.toLowerCase()
+      )
+    ) {
+      alert(`${this.state.name} is alredy in contacts`);
+      return;
+    }
     const newContact = {
       id: nanoid(),
       name: this.state.name,
       number: this.state.number,
     };
+
     this.props.data(newContact);
     this.setState({
       number: '',
