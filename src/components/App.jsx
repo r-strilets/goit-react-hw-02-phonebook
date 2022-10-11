@@ -59,7 +59,7 @@ export class App extends Component {
         <h1>Phonebook</h1>
         <ContactForm
           data={this.getNewContactsArray}
-          contacts={this.state.contacts}
+          // contacts={this.state.contacts}
         />
         <h2>Contacts</h2>
         <Filter contactsFilter={this.contactsFilter} />
