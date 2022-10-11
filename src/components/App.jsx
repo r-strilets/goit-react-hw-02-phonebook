@@ -15,6 +15,14 @@ export class App extends Component {
     filter: '',
   };
   getNewContactsArray = newContact => {
+    if (
+      this.state.contacts.some(contact => {
+        return contact.name.toLowerCase() === newContact.name.toLowerCase();
+      })
+    ) {
+      alert(`${newContact.name} is alredy in contacts`);
+      return;
+    }
     this.setState(prevState => {
       return {
         contacts: [...prevState.contacts, newContact],
